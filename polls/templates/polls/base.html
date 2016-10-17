@@ -1,0 +1,18 @@
+{# Load the tag library #}
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+<div id="content" class="container">
+    <div class="page-header">
+        <h1>{% block bootstrap3_title %}{% block title %}{% endblock %}{% endblock %}</h1>
+    </div>
+
+    {% block content %}{% endblock %}
+</div>
