@@ -1,2 +1,5 @@
 Django>=1.10.2
 django-bootstrap3>=7.1.0
+django-extensions>=1.7.4
+pytest-django>=3.0.0
+django-seed>=0.1.6
