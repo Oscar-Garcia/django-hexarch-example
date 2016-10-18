@@ -10,7 +10,8 @@ in the code is that I have added some bootstrap CSS to the Django Templates.
 
 For run the example you need to:
 - Get the code: `git clone https://github.com/Oscar-Garcia/django-hexarch-example.git`
-- Work on the Step 0: `git checkout step_0`
+- [Install and create a virtualenv](http://virtualenvwrapper.readthedocs.io/en/latest/install.html)
+- Install required libraries: `pip install -r requirements.txt` 
 - Execute migrations: `python manage.py migrate`
 - Create the superuser: `python manage.py createsuperuser`
 - Run Django: `python manage.py runserver`
@@ -18,3 +19,10 @@ For run the example you need to:
 You should be able to navigate to the [admin](http://localhost:8000/admin) and add some polls and then fill some of
 them in the [main page](http://localhost:8000/polls)
 
+## Step 1: Adding some tests 
+
+On this step some tests are added using [Py.test](http://pytest.org/) to be sure everything works as expected.
+
+- Work on the Step 1: `git checkout step_1`
+- Install new dependencies: `pip install -r requirements.txt`
+- Run tests: `py.test`
