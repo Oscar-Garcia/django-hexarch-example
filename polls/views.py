@@ -34,8 +34,8 @@ class ResultsView(generic.DetailView):
 def vote(request, question_id):
     store = get_default_store()
     is_json = request.META.get('HTTP_ACCEPT', None) == 'application/json'
-    presenter = PollsJSONView(request, store) if is_json else PollsHTMLView(request)
-    return polls_controller.vote(store, presenter, question_id, request.POST.get('choice', -1))
+    view = PollsJSONView(request, store) if is_json else PollsHTMLView(request)
+    return polls_controller.vote(store, view, question_id, request.POST.get('choice', -1))
 
 
 class PollsHTMLView(PollsView):
