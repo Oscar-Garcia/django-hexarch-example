@@ -31,9 +31,9 @@ class ResultsView(generic.DetailView):
 
 
 def vote(request, question_id):
-    presenter = PollsHTMLView(request)
+    view = PollsHTMLView(request)
     store = DjangoStore()
-    return polls_controller.vote(store, presenter, question_id, request.POST.get('choice', -1))
+    return polls_controller.vote(store, view, question_id, request.POST.get('choice', -1))
 
 
 class PollsHTMLView(PollsView):
