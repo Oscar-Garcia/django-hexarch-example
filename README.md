@@ -1,7 +1,12 @@
 # django-hexarch-example
 
-This repository contains an example of how to use the concept of Hexagonal Architectures in a Django Project.
-For the example we are going to start from the [Django Tutorial Poll example](https://docs.djangoproject.com/en/1.10/intro/tutorial01/).
+I have made some [slides](https://www.icloud.com/keynote/0c5SgVGVfhTFbHou3LHj5AHRA#hexagonal_django) 
+of how Hexagonal Architectures can be used in Django. 
+
+For testing the presented concepts that I have created an example in this repository based on the 
+[Django Tutorial Poll example](https://docs.djangoproject.com/en/1.10/intro/tutorial01/).
+
+There are different branches to be able to understand the transformations on the code step by step.
 
 ## Step 0: Getting started
 
@@ -36,6 +41,16 @@ dependencies on this step and apply hexagonal architecture.
 
 After the changes tests should pass unmodified and the application should be fully functional.
 
-- Work on the Step 1: `git checkout step_2`
+- Work on the Step 2: `git checkout step_2`
+- Run tests: `py.test`
+- Run Django: `python manage.py runserver`
+
+## Step 3: Exploiting the benefits of the hexagonal Architecture.
+
+In this final database we show the possibility of run tests on the domain isolated from the framework, also we
+see how different views can be used without changes in the core model. As an example the same logic is used for
+displaying the polls in HTML and in JSON.
+
+- Work on the Step 3: `git checkout step_3`
 - Run tests: `py.test`
 - Run Django: `python manage.py runserver`
