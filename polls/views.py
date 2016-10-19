@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=unused-argument
-from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 
-from .models import Choice, Question
+from polls.application import polls_controller
+from polls.application.polls_presenter import PollsPresenter
+from polls.framework.django_store import DjangoStore
+from polls.models import Question
 
 
 class IndexView(generic.ListView):
@@ -28,19 +31,24 @@ class ResultsView(generic.DetailView):
 
 
 def vote(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    try:
-        selected_choice = question.choice_set.get(pk=request.POST['choice'])
-    except (KeyError, Choice.DoesNotExist):
-        # Redisplay the question voting form.
-        return render(request, 'polls/detail.html', {
+    presenter = PollsPresenterView(request)
+    store = DjangoStore()
+    return polls_controller.vote(store, presenter, question_id, request.POST.get('choice', -1))
+
+
+class PollsPresenterView(PollsPresenter):
+
+    def __init__(self, request):
+        self.request = request
+
+    def log_exception(self, exception):
+        raise Http404 from exception
+
+    def ask_question(self, question, error_message=None):
+        return render(self.request, 'polls/detail.html', {
             'question': question,
             'error_message': "You didn't select a choice.",
         })
-    else:
-        selected_choice.votes += 1
-        selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
+
+    def list_results(self, question):
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
