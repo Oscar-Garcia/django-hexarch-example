@@ -26,3 +26,16 @@ On this step some tests are added using [Py.test](http://pytest.org/) to be sure
 - Work on the Step 1: `git checkout step_1`
 - Install new dependencies: `pip install -r requirements.txt`
 - Run tests: `py.test`
+
+Tests should run fine!
+
+## Step 2: Cleaning the view
+
+The view had some application and business logic and it is accessing the database, we are going to remove those
+dependencies on this step and apply hexagonal architecture.
+
+After the changes tests should pass unmodified and the application should be fully functional.
+
+- Work on the Step 1: `git checkout step_2`
+- Run tests: `py.test`
+- Run Django: `python manage.py runserver`
