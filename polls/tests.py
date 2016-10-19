@@ -8,6 +8,9 @@ from django.utils import timezone
 from django_seed import Seed
 
 from polls.models import Question, Choice
+from polls.framework import memory_store
+from polls.domain.commands import vote
+from polls.framework import DefaultStore
 
 
 @pytest.fixture
@@ -55,3 +58,47 @@ def test_vote(client, seed):
 
     choice.refresh_from_db()
     assert choice.votes == 1
+
+
+def test_domain_vote():
+    """
+    Test directly the vote logic without database or any Django related code
+    """
+    store = memory_store.MemoryStore()
+    question = memory_store.FakeQuestionFactory.build()
+    store.questions.save(question)
+    choices = memory_store.FakeChoiceFactory.build_batch(size=3, question=question)
+    store.choices.save_batch(choices)
+    choice = random.choice(choices)
+    assert choice.votes == 0
+    vote(store, choice.id)
+    assert choice.votes == 1
+
+
+def test_json_vote(client):
+    """
+    Use a different view and also in memory store
+    """
+    store = memory_store.MemoryStore()
+    question = memory_store.FakeQuestionFactory.build()
+    store.questions.save(question)
+    choices = memory_store.FakeChoiceFactory.build_batch(size=3, question=question)
+    store.choices.save_batch(choices)
+    choice = random.choice(choices)
+    assert choice.votes == 0
+    question_id = choice.question.id
+
+    with DefaultStore(store):
+        response = client.post(
+            reverse('polls:vote', args=(question_id,)),
+            {'choice': choice.id},
+            HTTP_ACCEPT='application/json'
+        )
+
+    assert response.status_code == 200
+    assert choice.votes == 1
+    for json_choice in response.json()['choices']:
+        if json_choice['id'] == choice.id:
+            assert json_choice['votes'] == 1
+        else:
+            assert json_choice['votes'] == 0
