@@ -13,7 +13,7 @@ class ModelAdapter(StoreCollection):
         try:
             return self._model_class.objects.get(pk=id)
         except ObjectDoesNotExist as error:
-            raise NotFoundException() from error
+            raise NotFoundException(model=self._model_class, filters={'id': id}) from error
 
     def save(self, entity):
         entity.save()

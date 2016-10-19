@@ -2,7 +2,7 @@
 from abc import ABC, abstractmethod
 
 
-class PollsPresenter(ABC):
+class PollsView(ABC):
 
     @abstractmethod
     def log_exception(self, exception):

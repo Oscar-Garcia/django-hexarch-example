@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.views import generic
 
 from polls.application import polls_controller
-from polls.application.polls_presenter import PollsPresenter
+from polls.application.polls_view import PollsView
 from polls.framework.django_store import DjangoStore
 from polls.models import Question
 
@@ -31,12 +31,12 @@ class ResultsView(generic.DetailView):
 
 
 def vote(request, question_id):
-    presenter = PollsPresenterView(request)
+    presenter = PollsHTMLView(request)
     store = DjangoStore()
     return polls_controller.vote(store, presenter, question_id, request.POST.get('choice', -1))
 
 
-class PollsPresenterView(PollsPresenter):
+class PollsHTMLView(PollsView):
 
     def __init__(self, request):
         self.request = request
@@ -47,7 +47,7 @@ class PollsPresenterView(PollsPresenter):
     def ask_question(self, question, error_message=None):
         return render(self.request, 'polls/detail.html', {
             'question': question,
-            'error_message': "You didn't select a choice.",
+            'error_message': error_message,
         })
 
     def list_results(self, question):
