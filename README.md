@@ -1,6 +1,6 @@
 # django-hexarch-example
 
-I have made some [slides](https://www.icloud.com/keynote/0c5SgVGVfhTFbHou3LHj5AHRA#hexagonal_django) 
+I have made some [slides](https://github.com/Oscar-Garcia/django-hexarch-example/blob/master/hexagonal_django.pdf) 
 of how Hexagonal Architectures can be used in Django. 
 
 For testing the presented concepts that I have created an example in this repository based on the 
